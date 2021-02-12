@@ -26,6 +26,8 @@ export const AddButton = withTheme(
         )
   )`
     && {
+      margin-top: 8px;
+      color:${({ theme }) => (`color: ${theme.palette.background.default};`)} 
       ${({ expanded }) => (expanded ? 'border-radius: 20px;' : null)}
     }
   `

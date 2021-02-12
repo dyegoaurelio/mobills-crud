@@ -20,6 +20,7 @@ import { useSelector } from 'react-redux'
 
 const MainListItems = ({ dashboardPath, open }) => (
   <div>
+    <AddTransactionPopup open={open}/>
     <DrawerItem button
     component={Link}
     to={dashboardPath}
@@ -30,7 +31,6 @@ const MainListItems = ({ dashboardPath, open }) => (
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </DrawerItem>
-    <AddTransactionPopup open={open}/>
   </div>
 )
 

@@ -7,6 +7,7 @@ import listItem from '@material-ui/core/ListItem'
 import styled from 'styled-components'
 
 const drawerWidth = '240px'
+const headerHeight = '64px'
 
 export const Toolbar = withTheme(styled(toolBar)`
   margin-right: 36;
@@ -33,6 +34,11 @@ export const AppBar = withTheme(styled(appBar)`
         }
         `}
   }
+
+  .MuiToolbar-root{
+    height: ${headerHeight};
+  }
+
 `)
 
 export const AppBarRoot = styled.div`
@@ -98,6 +104,7 @@ export const ToolbarDiv = withTheme(styled.div`
   align-items: center;
   justify-content: flex-end;
   padding: ${({ theme }) => theme.spacing(0, 1)}; 
+  height: ${headerHeight};
 
 `)
 
