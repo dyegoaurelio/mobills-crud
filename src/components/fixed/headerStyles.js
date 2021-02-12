@@ -2,6 +2,7 @@ import { withTheme } from '@material-ui/core'
 import appBar from '@material-ui/core/AppBar'
 import toolBar from '@material-ui/core/Toolbar'
 import drawer from '@material-ui/core/Drawer'
+import listItem from '@material-ui/core/ListItem'
 
 import styled from 'styled-components'
 
@@ -62,7 +63,7 @@ export const Drawer = withTheme(styled(drawer)`
         }
       )};
           overflow-x: hidden;
-          width: ${theme.spacing(7) + 1}px;
+          width: ${theme.spacing(9) + 1}px;
       
           ${theme.breakpoints.up('sm')} : { 
               width: 25px;
@@ -99,3 +100,24 @@ export const ToolbarDiv = withTheme(styled.div`
   padding: ${({ theme }) => theme.spacing(0, 1)}; 
 
 `)
+
+export const DrawerItem = withTheme(styled(listItem)`
+  &&{
+    width: inherit;
+    align-items: center;
+  justify-content: center;
+    display: flex;
+    padding: 15px;
+  }
+  .MuiListItemText-root{
+    ${({ open }) => (!open ? 'display: none;' : null)}
+    flex: none;
+ }
+
+ .MuiListItemIcon-root{
+  align-items: center;
+  justify-content: center;
+    display: flex;
+ }
+`
+)

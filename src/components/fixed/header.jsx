@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTheme } from '@material-ui/core/styles'
-import { AppBar, Toolbar, AppBarRoot, Drawer, ToolbarDiv } from './headerStyles'
+import { AppBar, Toolbar, AppBarRoot, Drawer, ToolbarDiv, DrawerItem } from './headerStyles'
+import AddTransactionPopup from '../addTransactionPopup'
 import List from '@material-ui/core/List'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Typography from '@material-ui/core/Typography'
@@ -9,7 +10,6 @@ import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
-import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 
@@ -18,17 +18,19 @@ import DashboardIcon from '@material-ui/icons/Dashboard'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
-const MainListItems = ({ dashboardPath }) => (
+const MainListItems = ({ dashboardPath, open }) => (
   <div>
-    <ListItem button
+    <DrawerItem button
     component={Link}
     to={dashboardPath}
+    open={open}
     >
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
-    </ListItem>
+    </DrawerItem>
+    <AddTransactionPopup open={open}/>
   </div>
 )
 
@@ -91,7 +93,7 @@ export default function Header ({ drawer, secondaryListItems }) {
         </ToolbarDiv>
         <Divider />
         <List>
-          <MainListItems dashboardPath={paths['dashboard']} />
+          <MainListItems dashboardPath={paths['dashboard']} open={open} />
         </List>
         <Divider />
         <List>{secondaryListItems}</List>
