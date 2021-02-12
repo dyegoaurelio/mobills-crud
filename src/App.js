@@ -10,8 +10,7 @@ import {
   Switch
 } from 'react-router-dom'
 
-import Dashboard from './pages/dashboard'
-import NotFoundPage from './pages/not-found-page'
+import { Dashboard, NotFoundPage } from './pages'
 
 function App () {
   const dispatch = useDispatch()
@@ -22,7 +21,7 @@ function App () {
         <Switch>
           <Route exact path={useSelector(state => state.urls['dashboard'])} component={Dashboard}/>
           <Route exact path={useSelector(state => state.urls['not-found-page'])} component={NotFoundPage}/>
-          <Redirect to={useSelector(state => state.urls['not-found-page'])}/>
+           <Redirect to={useSelector(state => state.urls['not-found-page'])}/>
         </Switch>
       </Router>
   )
