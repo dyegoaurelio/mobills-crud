@@ -21,6 +21,7 @@ module.exports = {
   rules: {
     'no-unused-vars': 'warn',
     'react/prop-types': 'off',
-    'dot-notation': 'off'
+    'dot-notation': 'off',
+    'quote-props': 'off'
   }
 }

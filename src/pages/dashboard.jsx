@@ -1,10 +1,15 @@
 import React from 'react'
+import { Header } from '../components/fixed'
+import { Page, Content } from '../styles'
 
 function Dashboard () {
   return (
-    <div>
+    <Page>
+      <Header />
+        <Content>
         this is the dashboard page
-    </div>
+        </Content>
+    </Page>
   )
 }
 
