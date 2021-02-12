@@ -24,7 +24,8 @@ display: grid;
 grid-template: auto 1fr / 1fr ;
 
 h1, h2 {
-    margin-left: 5%;
+    margin: 2vh 0 0 5%;
+    padding:0;
     grid-area: 1 / 1 / 2 / 2;
 }
 

@@ -21,7 +21,6 @@ export const AppBar = withTheme(styled(appBar)`
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen
       })};
-    background-color: ${({ theme }) => theme.palette.background.default};
     ${({ open, theme }) =>
       open &&
       ` {

@@ -71,11 +71,12 @@ export default function Header ({ drawer, secondaryListItems }) {
             aria-label="open drawer"
             onClick={toggleDrawerOpen}
             edge="start"
+            color="inherit"
           >
             <MenuIcon />
           </IconButton>
             : null }
-          <Typography variant="h6" noWrap color="textPrimary">
+          <Typography variant="h6" noWrap>
             Mobills
           </Typography>
         </Toolbar>

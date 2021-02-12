@@ -6,12 +6,24 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import { allReducers } from './util/reducers.js'
 
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
+
+const theme = createMuiTheme({
+  palette: {
+    background: {
+      default: '#F5F6FC'
+    }
+  }
+})
+
 const store = createStore(allReducers)
 
 ReactDOM.render(
   <>
     <Provider store={store}>
-      <App />
+      <ThemeProvider theme={theme} >
+        <App />
+      </ThemeProvider>
     </Provider>
   </>,
   document.getElementById('root')
