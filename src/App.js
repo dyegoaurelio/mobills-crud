@@ -1,23 +1,30 @@
 import React from 'react'
-import './App.css'
+
+import { useDispatch, useSelector } from 'react-redux'
+import { addUrlPath } from './util/reducers'
+
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch
+} from 'react-router-dom'
+
+import Dashboard from './pages/dashboard'
+import NotFoundPage from './pages/not-found-page'
 
 function App () {
+  const dispatch = useDispatch()
+  dispatch(addUrlPath('dashboard', '/'))
+  dispatch(addUrlPath('not-found-page', '/404'))
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <Router>
+        <Switch>
+          <Route exact path={useSelector(state => state.urls['dashboard'])} component={Dashboard}/>
+          <Route exact path={useSelector(state => state.urls['not-found-page'])} component={NotFoundPage}/>
+          <Redirect to={useSelector(state => state.urls['not-found-page'])}/>
+        </Switch>
+      </Router>
   )
 }
 
