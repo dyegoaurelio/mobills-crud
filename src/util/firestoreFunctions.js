@@ -3,6 +3,23 @@ import { useSelector } from 'react-redux'
 
 const db = firebase.firestore()
 
+class Transaction {
+/**
+ *
+ * @param {number} value
+ * @param {Array<string>} tags
+ */
+  constructor (value, tags) {
+    this.value = value
+    this.timestamp = new Date().getTime()
+    this.tags = tags
+  }
+
+  parse () {
+    return { ...this }
+  }
+}
+
 /**
  * will return all user's transactions since specified date
  *
@@ -40,4 +57,25 @@ export async function readBalance () {
     return null
   }
   return balance
+}
+
+/**
+ * will write a transiction to database
+ * @param {number} value transaction's value
+ * @param {Array<string>} tags an array of selected tags of the transation
+ */
+export async function writeTransaction (value, tags) {
+  if (typeof value !== 'number') {
+    throw new Error('invalid value')
+  }
+  const id = useSelector(({ userId }) => userId)
+  const docRef = db.collection('users').doc(id)
+  const transactions = docRef.collection('transactions')
+
+  const currentBalance = await readBalance()
+  await docRef.update({
+    balance: currentBalance + value
+  })
+
+  await transactions.add(new Transaction(value, tags).parse())
 }
