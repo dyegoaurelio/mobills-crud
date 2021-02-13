@@ -24,9 +24,20 @@ export async function readTransactions (date) {
   return snapshot.docs.map((doc) => doc.data())
 }
 
+/**
+ * will check current user balance
+ *
+ * if cant find user returns null
+ * @returns {Promise<number | null>}
+ */
 export async function readBalance () {
   const id = useSelector(({ userId }) => userId)
   const docRef = db.collection('users').doc(id)
-
-  return await (await docRef.get()).data()
+  let balance
+  try {
+    balance = (await docRef.get()).data().balance
+  } catch {
+    return null
+  }
+  return balance
 }
