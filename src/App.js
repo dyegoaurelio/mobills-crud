@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { addUrlPath } from './util/reducers'
+import { addUrlPath, setUser } from './util/reducers'
 
 import {
   BrowserRouter as Router,
@@ -16,6 +16,7 @@ function App () {
   const dispatch = useDispatch()
   dispatch(addUrlPath('dashboard', '/'))
   dispatch(addUrlPath('not-found-page', '/404'))
+  dispatch(setUser('usuarioTESTE'))
   return (
       <Router>
         <Switch>

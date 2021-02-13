@@ -22,6 +22,34 @@ export const addUrlPath = (name, path) => {
   }
 }
 
+const userIdReducer = (state = '', action) => {
+  switch (action.type) {
+    case 'SET':
+      state = action.payload
+      return state
+    case 'DELETE':
+      state = action.payload
+      return state
+    default:
+      return state
+  }
+}
+
+export const setUser = (id) => {
+  return {
+    type: 'SET',
+    payload: id
+  }
+}
+
+export const unauthorizeUser = () => {
+  return {
+    type: 'DELETE',
+    payload: ''
+  }
+}
+
 export const allReducers = combineReducers({
-  urls: urlsReducer
+  urls: urlsReducer,
+  userId: userIdReducer
 })
