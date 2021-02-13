@@ -11,14 +11,12 @@ import {
 } from 'react-router-dom'
 
 import { Dashboard, NotFoundPage } from './pages'
-import { readTransactions } from './util/firestoreFunctions'
 
 function App () {
   const dispatch = useDispatch()
   dispatch(addUrlPath('dashboard', '/'))
   dispatch(addUrlPath('not-found-page', '/404'))
   dispatch(setUser('teste'))
-  console.log(readTransactions(999))
 
   return (
       <Router>
