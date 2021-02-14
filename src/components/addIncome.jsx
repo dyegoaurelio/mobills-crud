@@ -5,7 +5,7 @@ import { useReadBalance, writeTransaction } from '../util/firestoreFunctions'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 
-export default function AddIncome ({ aftherSubmit: handleSubmit, render }) {
+export default function AddIncome ({ aftherSubmit: handleSubmit, reset }) {
   const balance = useReadBalance()
   const id = useSelector(({ userId }) => userId)
   const initialState = ({
@@ -14,10 +14,11 @@ export default function AddIncome ({ aftherSubmit: handleSubmit, render }) {
   })
   const [fields, setFields] = useState(initialState)
   useEffect(() => {
-    // will clear state every time this form is called
-  }, render)
+    if (reset === true) {
+      setFields(initialState)
+    }
+  }, reset)
   const submit = async (e) => {
-    console.log('chou no de cima')
     e.preventDefault()
     if (fields.amount) {
       await writeTransaction(id, parseFloat(fields.amount), fields.tags)
