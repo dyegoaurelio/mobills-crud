@@ -85,7 +85,7 @@ export async function writeTransaction (id, value, tags) {
     console.log('primeiro erro')
     throw new Error('invalid value')
   }
-  if (value) {
+  if (value || value === 0) {
     const docRef = db.collection('users').doc(id)
     const transactions = docRef.collection('transactions')
 
