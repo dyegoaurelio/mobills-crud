@@ -110,7 +110,7 @@ const useHook = promise => {
     promise.then(
       res => setState({ data: res, loading: false })
     )
-  }, [promise, state]
+  }, []
   )
   return state
 }
