@@ -69,10 +69,8 @@ export default function AddIncome ({ aftherSubmit: handleSubmit, reset }) {
         }
       }}
     />
-    <div>
-    saldo: {balance.data ? ('R$ ' + balance.data) : 'carregando'}
-    </div>
     <InputTagsArea>
+    <Button onClick={addTag} variant="outlined" color="primary" size="small" >+ tag</Button>
       <div className="tags-area">
     {
       fields.tags.map(
@@ -87,7 +85,6 @@ export default function AddIncome ({ aftherSubmit: handleSubmit, reset }) {
       )
     }
       </div>
-      <Button onClick={addTag} variant="outlined" color="primary" size="small" >+</Button>
     </InputTagsArea>
     <Button
       variant="contained"
