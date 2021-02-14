@@ -2,8 +2,10 @@ import React from 'react'
 import { Header } from '../components/fixed'
 import { Page, DashboardContent, CardArea } from '../styles'
 import Card from '@material-ui/core/Card'
+import { useReadBalance } from '../util/firestoreFunctions'
 
 function Dashboard () {
+  const balance = useReadBalance()
   return (
     <Page>
       <Header />
@@ -20,7 +22,7 @@ function Dashboard () {
           <h2>Acompanhamento</h2>
           <body>
             <Card>Gráficos</Card>
-            <Card>saldo</Card>
+            <Card>saldo: {balance.data ? ('R$ ' + balance.data) : 'carregando'}</Card>
             <Card>histórico</Card>
           </body>
         </CardArea>

@@ -1,5 +1,6 @@
 import firebase from './firebase'
 import { useSelector } from 'react-redux'
+import { useState, useEffect } from 'react'
 
 const db = firebase.firestore()
 
@@ -45,10 +46,11 @@ export async function readTransactions (date) {
  * will check current user balance
  *
  * if cant find user returns null
+ * @param {string} id username id
  * @returns {Promise<number | null>}
  */
-export async function readBalance () {
-  const id = useSelector(({ userId }) => userId)
+export async function readBalance (id) {
+  // const id = useSelector(({ userId }) => userId)
   const docRef = db.collection('users').doc(id)
   let balance
   try {
@@ -57,6 +59,20 @@ export async function readBalance () {
     return null
   }
   return balance
+}
+
+/**
+ * will check current user balance
+ * @typedef {Object} state
+ * @property {boolean} loading
+ * @property {number | null} data
+ * @returns {state}
+ */
+export const useReadBalance = () => {
+  const id = useSelector(({ userId }) => userId)
+  const state = useHook(readBalance(id))
+
+  return state
 }
 
 /**
@@ -78,4 +94,23 @@ export async function writeTransaction (value, tags) {
   })
 
   await transactions.add(new Transaction(value, tags).parse())
+}
+
+/**
+ * will translate a promise to a hook
+ * @param {Promise} promise
+ */
+const useHook = promise => {
+  const [state, setState] = useState({ data: null, loading: true })
+
+  useEffect(() => {
+    setState(
+      state => ({ data: state.data, loading: true })
+    )
+    promise.then(
+      res => setState({ data: res, loading: false })
+    )
+  }, [promise, state]
+  )
+  return state
 }
