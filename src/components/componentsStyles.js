@@ -62,6 +62,7 @@ const NumberFormatCustom = (props) => {
 export const MoneyInputField = ({ mask, onChange: handleChange, value, label, name, ...otherProps }) => {
   return (
   <MaterialTextField
+  {...otherProps}
   label={label}
   value={value}
   onChange={handleChange}
