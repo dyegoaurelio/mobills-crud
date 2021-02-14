@@ -73,3 +73,11 @@ export const MoneyInputField = ({ mask, onChange: handleChange, value, label, na
   />
   )
 }
+
+export const InputTagsArea = styled.div`
+
+    .MuiInput-root{
+      padding: 5px;
+      margin: 15px;
+    }
+`

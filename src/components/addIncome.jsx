@@ -61,22 +61,18 @@ export default function AddIncome ({ aftherSubmit: handleSubmit, render }) {
       name="amount"
       value={fields.amount}
       onChange={handleAmountChange}
-      label={'teste'}
+      label={'Quantidade'}
       onKeyUp={({ key }) => {
         if (key === 'Enter') {
           console.log('enter no de cima')
         }
       }}
     />
-    <Button
-      variant="contained"
-      color="primary"
-      onClick={submit}
-    >Escrever</Button>
     <div>
     saldo: {balance.data ? ('R$ ' + balance.data) : 'carregando'}
     </div>
     <InputTagsArea>
+      <div className="tags-area">
     {
       fields.tags.map(
         (tag, index) => (
@@ -84,13 +80,19 @@ export default function AddIncome ({ aftherSubmit: handleSubmit, render }) {
           key={index}
           value={tag}
           onChange={ (e) => handleTagsChange(e, index)}
-          label={'teste'}
+          label={'Categoria ' + (index + 1) }
           />
         )
       )
     }
+      </div>
+      <Button onClick={addTag} variant="outlined" color="primary" size="small" >+</Button>
     </InputTagsArea>
-      <Button onClick={addTag} >adicionar categoria</Button>
+    <Button
+      variant="contained"
+      color="primary"
+      onClick={submit}
+    >Escrever</Button>
     </div>
   )
 }
