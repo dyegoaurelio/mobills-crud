@@ -4,9 +4,12 @@ import { useSelector } from 'react-redux'
 import { useReadBalance, writeTransaction } from '../util/firestoreFunctions'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
-
-export default function AddIncome ({ aftherSubmit: handleSubmit, reset }) {
-  const balance = useReadBalance()
+/**
+ * @param {Object} param0
+ * @param {'income' | 'debt'} param0.variant teste
+ * @param {boolean} param0.reset
+ */
+export default function AddTransiction ({ aftherSubmit: handleSubmit, reset, variant }) {
   const id = useSelector(({ userId }) => userId)
   const initialState = ({
     amount: '',
@@ -20,8 +23,12 @@ export default function AddIncome ({ aftherSubmit: handleSubmit, reset }) {
   }, reset)
   const submit = async (e) => {
     e.preventDefault()
-    if (fields.amount) {
-      await writeTransaction(id, parseFloat(fields.amount), fields.tags)
+    let amount = parseFloat(fields.amount)
+    if (amount) {
+      if (variant === 'debt') {
+        amount = -amount
+      }
+      await writeTransaction(id, amount, fields.tags)
     }
     if (handleSubmit) {
       handleSubmit(fields)
@@ -58,6 +65,8 @@ export default function AddIncome ({ aftherSubmit: handleSubmit, reset }) {
 
   return (
     <div>
+    {variant === 'debt' ? 'Insira a Despesa' : 'Insira a Receita'}
+    <li />
     <MoneyInputField
       name="amount"
       value={fields.amount}
