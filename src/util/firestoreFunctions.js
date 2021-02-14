@@ -50,7 +50,6 @@ export async function readTransactions (date) {
  * @returns {Promise<number | null>}
  */
 export async function readBalance (id) {
-  // const id = useSelector(({ userId }) => userId)
   const docRef = db.collection('users').doc(id)
   let balance
   try {
@@ -77,18 +76,18 @@ export const useReadBalance = () => {
 
 /**
  * will write a transiction to database
+ * @param {string} id username id
  * @param {number} value transaction's value
  * @param {Array<string>} tags an array of selected tags of the transation
  */
-export async function writeTransaction (value, tags) {
+export async function writeTransaction (id, value, tags) {
   if (typeof value !== 'number') {
     throw new Error('invalid value')
   }
-  const id = useSelector(({ userId }) => userId)
   const docRef = db.collection('users').doc(id)
   const transactions = docRef.collection('transactions')
 
-  const currentBalance = await readBalance()
+  const currentBalance = await readBalance(id)
   await docRef.update({
     balance: currentBalance + value
   })
