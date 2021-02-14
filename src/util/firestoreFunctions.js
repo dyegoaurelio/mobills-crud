@@ -82,17 +82,22 @@ export const useReadBalance = () => {
  */
 export async function writeTransaction (id, value, tags) {
   if (typeof value !== 'number') {
+    console.log('primeiro erro')
     throw new Error('invalid value')
   }
-  const docRef = db.collection('users').doc(id)
-  const transactions = docRef.collection('transactions')
+  if (value) {
+    const docRef = db.collection('users').doc(id)
+    const transactions = docRef.collection('transactions')
 
-  const currentBalance = await readBalance(id)
-  await docRef.update({
-    balance: currentBalance + value
-  })
+    const currentBalance = await readBalance(id)
+    await docRef.update({
+      balance: currentBalance + value
+    })
 
-  await transactions.add(new Transaction(value, tags).parse())
+    await transactions.add(new Transaction(value, tags).parse())
+  } else {
+    throw new Error('invalid value')
+  }
 }
 
 /**
