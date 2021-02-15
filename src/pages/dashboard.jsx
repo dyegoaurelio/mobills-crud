@@ -59,7 +59,7 @@ function Dashboard () {
           <h2>Adesão</h2>
           <body>
             <Card>
-              Adicionar despesa
+              <h2>Adicionar despesa</h2>
               <Button
                 variant="contained"
                 onClick={() => {
@@ -71,7 +71,7 @@ function Dashboard () {
               </Button>
             </Card>
             <Card>
-              Alterar informação
+              <h2>Alterar informação</h2>
               <Button
                 variant="contained"
                 onClick={() => {
@@ -83,7 +83,7 @@ function Dashboard () {
               </Button>
             </Card>
             <Card>
-              Adicionar receita
+              <h2>Adicionar receita</h2>
               <Button
                 variant="contained"
                 onClick={() => {
@@ -100,8 +100,8 @@ function Dashboard () {
           <h2>Acompanhamento</h2>
           <body>
             <Card>Gráficos</Card>
-            <Card>
-              saldo: {!balance.loading ? 'R$ ' + balance.data : 'carregando'}
+            <Card style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <h2>saldo: {!balance.loading ? 'R$ ' + balance.data : 'carregando'} </h2>
             </Card>
             <Card>
                 <HistoryTable transactions={transactions} />
