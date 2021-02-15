@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import TextField from '@material-ui/core/TextField'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -34,6 +34,19 @@ export default function ChangeTransaction ({ aftherSubmit: handleSubmit, variant
     }
   }
 
+  useEffect(
+    () => {
+      if (selectedValue) {
+        const newAmount = selectedValue.data().value
+        const newTags = selectedValue.data().tags
+        setFields({
+          amount: newAmount,
+          tags: newTags
+        })
+      }
+    }, [selectedValue]
+  )
+
   const handleAmountChange = (e) => {
     setFields(
       fields => ({
@@ -64,14 +77,50 @@ export default function ChangeTransaction ({ aftherSubmit: handleSubmit, variant
 
   return (
     <div>
-    Escolha a Transação que deseja alterar
-    <br />
+    <h2>Escolha a Transação que deseja alterar</h2>
     <br />
     <SelectTransactionsDropDown setSelectedValue={setSelectedValue}/>
     {
         selectedValue
 
-          ? (<Button style={{ color: 'red' }} variant="outlined">Deletar Transação</Button>)
+          ? (
+          <>
+          <br/>
+          <Button style={{ color: 'red' }} variant="outlined"
+            >Deletar Transação
+          </Button>
+          <br/>
+          <h2>Alterar Informações</h2>
+          <MoneyInputField
+            name="amount"
+            value={fields.amount}
+            onChange={handleAmountChange}
+            label={'Quantidade'}
+          />
+          <InputTagsArea>
+    <Button onClick={addTag} variant="outlined" color="primary" size="small" >+ tag</Button>
+      <div className="tags-area">
+    {
+      fields.tags.map(
+        (tag, index) => (
+          <TextField
+          key={index}
+          value={tag}
+          onChange={ (e) => handleTagsChange(e, index)}
+          label={'Categoria ' + (index + 1) }
+          />
+        )
+      )
+    }
+      </div>
+    </InputTagsArea>
+    <Button
+      variant="contained"
+      color="primary"
+      onClick={submit}
+    >Alterar</Button>
+          </>
+            )
 
           : null
     }
@@ -121,7 +170,7 @@ function SelectTransactionsDropDown ({ setSelectedValue }) {
 
   return (
     <Autocomplete
-      id="asynchronous-demo"
+      id="transaction-picker"
       style={{ width: 300 }}
       open={open}
       onOpen={() => {
@@ -138,7 +187,7 @@ function SelectTransactionsDropDown ({ setSelectedValue }) {
       renderInput={(params) => (
         <TextField
           {...params}
-          label="Asynchronous"
+          label="Transação"
           variant="outlined"
           InputProps={{
             ...params.InputProps,
