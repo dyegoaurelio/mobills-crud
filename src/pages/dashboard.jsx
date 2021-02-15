@@ -5,12 +5,14 @@ import RegisterTransaction from '../components/registerTransactionComponent'
 import { Page, DashboardContent, CardArea } from '../styles'
 import Card from '@material-ui/core/Card'
 import Button from '@material-ui/core/Button'
-import { useReadBalance } from '../util/firestoreFunctions'
+import { useReadBalance, useReadTransactionsHistory, deleteTransaction } from '../util/firestoreFunctions'
+import { useSelector } from 'react-redux'
 
 function Dashboard () {
   const [balance, updateBalance] = useReadBalance()
   const [showPopUp, setShowPopUp] = useState(false)
   const [debtClicked, setDebtClicked] = useState(false)
+  const [transactions, updateTransactions] = useReadTransactionsHistory()
   const closePopup = () => {
     setShowPopUp(false)
   }
@@ -30,7 +32,7 @@ function Dashboard () {
     <Page>
       {showPopUp
         ? (
-        <Popup closePopup={() => { closePopup(); updateBalance(true) }} >
+        <Popup closePopup={() => { closePopup(); updateBalance(true); updateTransactions(true) }} >
           <RegisterTransaction variant={ debtClicked ? 'debt' : 'income' }/>
         </Popup>
           )

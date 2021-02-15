@@ -1,3 +1,5 @@
+// TODAS ESSAS FUNÇÕES DEVERIAM SER FEITAS NO BACKEND
+
 import firebase from './firebase'
 import { useSelector } from 'react-redux'
 import { useState, useEffect } from 'react'
@@ -29,25 +31,26 @@ class Transaction {
  * @param {number?} date minimum timestamp to fetch data
  * @returns {Promise<Array<object>>}
  */
-export async function readTransactions (id, date) {
+export async function readTransactionsHistory (id, date) {
   const docRef = db.collection('users').doc(id).collection('transactions')
   let snapshot
 
   if (typeof date === 'number') {
     snapshot = await docRef.where('timestamp', '>', date).get()
-    return snapshot.docs.map(doc => doc.data())
+    return snapshot.docs
   }
 
   snapshot = await docRef.get()
-  return snapshot.docs.map((doc) => doc.data())
+  return snapshot.docs
 }
 
 /**
  * @param {number?} date minimum timestamp to fetch data
+ * @returns {[state: { data: [{}]| null, loading: boolean}, setUpdate: React.Dispatch<React.SetStateAction<boolean>>]}
  */
-export const useReadTransactions = (date) => {
+export const useReadTransactionsHistory = (date) => {
   const id = useSelector(({ userId }) => userId)
-  const state = useHook(readTransactions, [id, date])
+  const state = useHook(readTransactionsHistory, [id, date])
 
   return state
 }
@@ -72,10 +75,7 @@ export async function readBalance (id) {
 
 /**
  * will check current user balance
- * @typedef {Object} state
- * @property {boolean} loading
- * @property {number | null} data
- * @returns {state}
+ * @returns {[state: { data: string | null, loading: boolean}, setUpdate: React.Dispatch<React.SetStateAction<boolean>>]}
  */
 export const useReadBalance = () => {
   const id = useSelector(({ userId }) => userId)
@@ -92,7 +92,6 @@ export const useReadBalance = () => {
  */
 export async function writeTransaction (id, value, tags) {
   if (typeof value !== 'number') {
-    console.log('primeiro erro')
     throw new Error('invalid value')
   }
   if (value || value === 0) {
@@ -136,4 +135,35 @@ const useHook = (func, args) => {
   }, [update]
   )
   return [state, setUpdate]
+}
+
+/**
+ *
+ * @param {string} userId
+ * @param {firebase.firestore.QueryDocumentSnapshot} snapshot
+ * @returns {'OK' | 'FAILED'}
+ */
+export async function deleteTransaction (userId, snapshot) {
+  const userRef = db.collection('users').doc(userId)
+  const transactionValue = snapshot.data().value
+
+  try {
+    await userRef.collection('transactions')
+      .doc(snapshot.id).delete()
+  } catch (err) {
+    console.error(err)
+    return 'FAILED'
+  }
+
+  try {
+    const currentBalance = await readBalance(userId)
+    await userRef.update({
+      balance: currentBalance - transactionValue
+    })
+  } catch (err) {
+    console.error(err)
+    return 'FAILED'
+  }
+
+  return 'OK'
 }
