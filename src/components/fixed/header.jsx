@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTheme } from '@material-ui/core/styles'
 import { AppBar, Toolbar, AppBarRoot, Drawer, ToolbarDiv, DrawerItem } from './headerStyles'
-import AddTransactionPopup from '../addTransactionPopup'
+import AddTransactionPopup from '../addTransactionButtonPopup'
 import List from '@material-ui/core/List'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Typography from '@material-ui/core/Typography'
