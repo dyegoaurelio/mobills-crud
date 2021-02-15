@@ -47,7 +47,7 @@ export async function readTransactions (id, date) {
  */
 export const useReadTransactions = (date) => {
   const id = useSelector(({ userId }) => userId)
-  const state = useHook(readTransactions(id, date))
+  const state = useHook(readTransactions, [id, date])
 
   return state
 }
