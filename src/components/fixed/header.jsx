@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useTheme } from '@material-ui/core/styles'
 import { AppBar, Toolbar, AppBarRoot, Drawer, ToolbarDiv, DrawerItem } from './headerStyles'
 import AddTransactionPopup from '../addTransactionDrawerButton'
@@ -17,10 +17,14 @@ import DashboardIcon from '@material-ui/icons/Dashboard'
 
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import Popup from '../popup'
+import ChangeTransaction from '../registerChangeTransaction'
+import RegisterTransaction from '../registerTransactionComponent'
 
-const MainListItems = ({ dashboardPath, open }) => (
+const MainListItems = ({ dashboardPath, open, openPopup }) => {
+  return (
   <div>
-    <AddTransactionPopup open={open}/>
+    <AddTransactionPopup open={open} openPopup={openPopup}/>
     <DrawerItem button
     component={Link}
     to={dashboardPath}
@@ -32,7 +36,8 @@ const MainListItems = ({ dashboardPath, open }) => (
       <ListItemText primary="Dashboard" />
     </DrawerItem>
   </div>
-)
+  )
+}
 
 /**
  * Will render a header component
@@ -43,7 +48,14 @@ const MainListItems = ({ dashboardPath, open }) => (
  */
 export default function Header ({ drawer, secondaryListItems }) {
   const theme = useTheme()
-  const [open, setOpen] = React.useState(false)
+  const closePopup = () => {
+    setShowPopUp(false)
+    setpopAction('')
+  }
+
+  const [open, setOpen] = useState(false)
+  const [showPopUp, setShowPopUp] = useState(false)
+  const [popupAction, setpopAction] = useState('')
   const paths = {
     'dashboard': useSelector(({ urls }) => urls['dashboard'])
   }
@@ -55,6 +67,14 @@ export default function Header ({ drawer, secondaryListItems }) {
 
   const handleDrawerClose = () => {
     setOpen(false)
+  }
+  const openPopUpFunc = (action) => {
+    // TEMPORÁRIO
+    if (action === 'CHANGE') {
+      history.push('/alterar-transacao')
+    }
+    setpopAction(action)
+    setShowPopUp(true)
   }
 
   return (
@@ -94,12 +114,26 @@ export default function Header ({ drawer, secondaryListItems }) {
         </ToolbarDiv>
         <Divider />
         <List>
-          <MainListItems dashboardPath={paths['dashboard']} open={open} />
+          <MainListItems dashboardPath={paths['dashboard']} open={open} openPopUpFunc={openPopUpFunc} />
         </List>
         <Divider />
         <List>{secondaryListItems}</List>
       </Drawer>
         : null}
+        {showPopUp
+          ? (
+        <Popup
+          closePopup={() => {
+            closePopup()
+          }}
+        >
+          {popupAction === 'CHANGE'
+            ? <ChangeTransaction />
+            : <RegisterTransaction variant={popupAction} />
+              }
+        </Popup>
+            )
+          : null}
     </>
   )
 }

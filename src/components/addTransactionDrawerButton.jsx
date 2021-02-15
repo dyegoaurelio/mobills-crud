@@ -8,14 +8,7 @@ import AddIcon from '@material-ui/icons/Add'
 
 import { AddButton } from './componentsStyles'
 
-const useStyles = makeStyles((theme) => ({
-  typography: {
-    padding: theme.spacing(2)
-  }
-}))
-
-export default function SimplePopover ({ open: drawerOpen }) {
-  const classes = useStyles()
+export default function SimplePopover ({ open: drawerOpen, openPopUp }) {
   const [anchorEl, setAnchorEl] = React.useState(null)
 
   const handleClick = (event) => {
@@ -54,7 +47,14 @@ export default function SimplePopover ({ open: drawerOpen }) {
           horizontal: 'center'
         }}
       >
-        <Typography className={classes.typography}>The content of the Popover.</Typography>
+        <div style={{ display: 'grid' }}>
+          <Button style={{ color: '#dd4444' }}
+            // onClick={openPopUp('DEBT')}
+          >Adicionar Despesa</Button>
+          <Button style={{ color: '#41e02f' }}
+            // onClick={openPopUp('INCOME')}
+          >Adicionar Receita</Button>
+        </div>
       </Popover>
     </div>
   )
