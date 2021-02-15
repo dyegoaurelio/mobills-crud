@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 /**
  * @param {Object} param0
- * @param {'income' | 'debt'} param0.variant teste
+ * @param {'INCOME' | 'DEBT'} param0.variant teste
  * @param {boolean} param0.reset
  */
 export default function AddTransaction ({ aftherSubmit: handleSubmit, variant }) {
@@ -20,7 +20,7 @@ export default function AddTransaction ({ aftherSubmit: handleSubmit, variant })
     e.preventDefault()
     let amount = parseFloat(fields.amount)
     if (amount) {
-      if (variant === 'debt') {
+      if (variant === 'DEBT') {
         amount = -amount
       }
       setFields(initialState)
@@ -61,7 +61,7 @@ export default function AddTransaction ({ aftherSubmit: handleSubmit, variant })
 
   return (
     <div>
-    {variant === 'debt' ? 'Insira a Despesa' : 'Insira a Receita'}
+    {variant === 'DEBT' ? 'Insira a Despesa' : 'Insira a Receita'}
     <br />
     <MoneyInputField
       name="amount"

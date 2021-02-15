@@ -13,7 +13,7 @@ import { MoneyInputField, InputTagsArea } from './componentsStyles'
  */
 export default function ChangeTransaction ({ aftherSubmit: handleSubmit, variant }) {
   const id = useSelector(({ userId }) => userId)
-  const [selectedValue, setSelectedValue] = useState({})
+  const [selectedValue, setSelectedValue] = useState(null)
   const initialState = ({
     amount: '',
     tags: ['']
@@ -67,17 +67,19 @@ export default function ChangeTransaction ({ aftherSubmit: handleSubmit, variant
     Escolha a Transação que deseja alterar
     <br />
     <br />
-    <SelectTransactionsDropDown />
-    <Button
-      variant="contained"
-      color="primary"
-      onClick={submit}
-    >Escrever</Button>
+    <SelectTransactionsDropDown setSelectedValue={setSelectedValue}/>
+    {
+        selectedValue
+
+          ? (<Button style={{ color: 'red' }} variant="outlined">Deletar Transação</Button>)
+
+          : null
+    }
     </div>
   )
 }
 
-function SelectTransactionsDropDown () {
+function SelectTransactionsDropDown ({ setSelectedValue }) {
   const id = useSelector(({ userId }) => userId)
   const [open, setOpen] = React.useState(false)
   const [options, setOptions] = React.useState([])
@@ -92,13 +94,13 @@ function SelectTransactionsDropDown () {
 
     (async () => {
       const res = await readTransactionsHistory(id)
-
       if (active) {
         setOptions(res.map(
           item => {
             const date = new Date(item.data().timestamp)
             return ({
-              name: `R$ ${item.data().value} : data ${date.getDate()}/${date.getMonth() + 1}`
+              name: `R$ ${item.data().value} : data ${date.getDate()}/${date.getMonth() + 1}`,
+              ref: item
             }
             )
           }
@@ -130,6 +132,7 @@ function SelectTransactionsDropDown () {
       }}
       getOptionSelected={(option, value) => option.name === value.name}
       getOptionLabel={(option) => option.name}
+      onChange={(event, value) => setSelectedValue(value ? value.ref : null)}
       options={options}
       loading={loading}
       renderInput={(params) => (
@@ -140,10 +143,10 @@ function SelectTransactionsDropDown () {
           InputProps={{
             ...params.InputProps,
             endAdornment: (
-              <React.Fragment>
+              <>
                 {loading ? <CircularProgress color="inherit" size={20} /> : null}
                 {params.InputProps.endAdornment}
-              </React.Fragment>
+              </>
             )
           }}
         />

@@ -1,39 +1,54 @@
 import React, { useState } from 'react'
 import { Header } from '../components/fixed'
 import Popup from '../components/popup'
+import ChangeTransaction from '../components/registerChangeTransaction'
 import RegisterTransaction from '../components/registerTransactionComponent'
 import { Page, DashboardContent, CardArea } from '../styles'
 import Card from '@material-ui/core/Card'
 import Button from '@material-ui/core/Button'
-import { useReadBalance, useReadTransactionsHistory, deleteTransaction } from '../util/firestoreFunctions'
-import { useSelector } from 'react-redux'
+import {
+  useReadBalance,
+  useReadTransactionsHistory
+} from '../util/firestoreFunctions'
+import { useHistory } from 'react-router-dom'
 
 function Dashboard () {
+  const history = useHistory()
   const [balance, updateBalance] = useReadBalance()
   const [showPopUp, setShowPopUp] = useState(false)
-  const [debtClicked, setDebtClicked] = useState(false)
+  const [popupAction, setpopAction] = useState('')
   const [transactions, updateTransactions] = useReadTransactionsHistory()
   const closePopup = () => {
     setShowPopUp(false)
+    setpopAction('')
   }
+  /**
+   *
+   * @param {'DEBT' | 'INCOME' | 'CHANGE'} action
+   */
   const openPopUp = (action) => {
-    switch (action) {
-      case 'debt':
-        setDebtClicked(true)
-        break
-      case 'income':
-        setDebtClicked(false)
-        break
+    // TEMPORÁRIO
+    if (action === 'CHANGE') {
+      history.push('/alterar-transacao')
     }
-
+    setpopAction(action)
     setShowPopUp(true)
   }
   return (
     <Page>
       {showPopUp
         ? (
-        <Popup closePopup={() => { closePopup(); updateBalance(true); updateTransactions(true) }} >
-          <RegisterTransaction variant={ debtClicked ? 'debt' : 'income' }/>
+        <Popup
+          closePopup={() => {
+            closePopup()
+            updateBalance(true)
+            updateTransactions(true)
+          }}
+        >
+          {popupAction === 'CHANGE'
+            ? <ChangeTransaction />
+            : <RegisterTransaction variant={popupAction} />
+              }
         </Popup>
           )
         : null}
@@ -42,18 +57,41 @@ function Dashboard () {
         <CardArea>
           <h2>Adesão</h2>
           <body>
-            <Card>Adicionar despesa
-              <Button variant="contained"
-              onClick={() => { openPopUp('debt') }}
-              style={{ backgroundColor: '#F31B2D', color: 'white' }}
-              >Adicionar</Button>
+            <Card>
+              Adicionar despesa
+              <Button
+                variant="contained"
+                onClick={() => {
+                  openPopUp('DEBT')
+                }}
+                style={{ backgroundColor: '#e2aaaa', color: 'black' }}
+              >
+                Adicionar
+              </Button>
             </Card>
-            <Card>Alterar informação</Card>
-            <Card>Adicionar receita
-            <Button variant="contained"
-            onClick={() => { openPopUp('income') }}
-            style={{ backgroundColor: '#AACAE2', color: 'black' }}
-            >Adicionar</Button>
+            <Card>
+              Alterar informação
+              <Button
+                variant="contained"
+                onClick={() => {
+                  openPopUp('CHANGE')
+                }}
+                style={{ backgroundColor: '#AACAE2', color: 'black' }}
+              >
+                Alterar
+              </Button>
+            </Card>
+            <Card>
+              Adicionar receita
+              <Button
+                variant="contained"
+                onClick={() => {
+                  openPopUp('INCOME')
+                }}
+                style={{ backgroundColor: '#b0e2aa', color: 'black' }}
+              >
+                Adicionar
+              </Button>
             </Card>
           </body>
         </CardArea>
