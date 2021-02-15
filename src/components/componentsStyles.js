@@ -153,9 +153,9 @@ export const HistoryTable = styled.div`
 export const Tr = styled.tr` 
  background-color: ${({ variant }) => {
     if (variant() === 'POSITIVE') {
-      return '#E2AAAA'
-    } else {
       return '#B0E2AA'
+    } else {
+      return '#E2AAAA'
     }
   }};
 `

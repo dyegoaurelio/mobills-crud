@@ -104,7 +104,7 @@ function Dashboard () {
               saldo: {!balance.loading ? 'R$ ' + balance.data : 'carregando'}
             </Card>
             <Card>
-                <HistoryTable />
+                <HistoryTable transactions={transactions} />
             </Card>
           </body>
         </CardArea>

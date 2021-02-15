@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { HistoryTable, Tr } from './componentsStyles'
 import { useReadTransactionsHistory } from '../util/firestoreFunctions'
 
-function Table () {
-  const [transactionData, updateTransactionData] = useReadTransactionsHistory()
+function Table ({ transactions }) {
+//   const [transactionData, updateTransactionData] = useReadTransactionsHistory()
   return (
       <HistoryTable>
           <h2 id="title">Histórico de transações</h2>
@@ -12,10 +12,10 @@ function Table () {
                 <th>Valor</th>
                 <th>Data</th>
             </tr>
-            { transactionData.loading
+            { transactions.loading
               ? 'carregando ...'
               : (
-                  transactionData.data.map(
+                  transactions.data.map(
                     (doc, index) => {
                       const data = doc.data()
                       const timestamp = new Date(data.timestamp)
