@@ -106,6 +106,7 @@ background-color: rgba(0,0,0, 0.5);
   padding: 5px;
   border-radius: 20px;
   background: white;
+  overflow: auto;
 
   .popup-close{
     padding: 5px;
