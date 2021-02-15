@@ -9,18 +9,13 @@ import TextField from '@material-ui/core/TextField'
  * @param {'income' | 'debt'} param0.variant teste
  * @param {boolean} param0.reset
  */
-export default function AddTransiction ({ aftherSubmit: handleSubmit, reset, variant }) {
+export default function AddTransiction ({ aftherSubmit: handleSubmit, variant }) {
   const id = useSelector(({ userId }) => userId)
   const initialState = ({
     amount: '',
     tags: ['']
   })
   const [fields, setFields] = useState(initialState)
-  useEffect(() => {
-    if (reset === true) {
-      setFields(initialState)
-    }
-  }, reset)
   const submit = async (e) => {
     e.preventDefault()
     let amount = parseFloat(fields.amount)
@@ -28,10 +23,11 @@ export default function AddTransiction ({ aftherSubmit: handleSubmit, reset, var
       if (variant === 'debt') {
         amount = -amount
       }
+      setFields(initialState)
       await writeTransaction(id, amount, fields.tags)
-    }
-    if (handleSubmit) {
-      handleSubmit(fields)
+      if (handleSubmit) {
+        handleSubmit(fields)
+      }
     }
   }
 
@@ -66,7 +62,7 @@ export default function AddTransiction ({ aftherSubmit: handleSubmit, reset, var
   return (
     <div>
     {variant === 'debt' ? 'Insira a Despesa' : 'Insira a Receita'}
-    <li />
+    <br />
     <MoneyInputField
       name="amount"
       value={fields.amount}

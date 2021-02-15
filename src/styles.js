@@ -36,6 +36,7 @@ body{
     justify-content: center;
 
     .MuiCard-root{
+        display: grid;
         height: 50%;
         width: 25%;
         padding: 15px;

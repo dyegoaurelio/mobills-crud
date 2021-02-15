@@ -55,6 +55,7 @@ const NumberFormatCustom = (props) => {
     decimalScale={2}
     allowedDecimalSeparators={[',', '.']}
     prefix="R$ "
+    allowNegative={false}
   />
   )
 }
@@ -81,4 +82,34 @@ export const InputTagsArea = styled.div`
       padding: 5px;
       margin: 15px;
     }
+`
+
+export const PopupDiv = styled.div` 
+position: fixed;
+width: 100%;
+height: 100%;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+margin: auto;
+z-index: 5000;
+background-color: rgba(0,0,0, 0.5);
+
+.popup-inner {
+  position: absolute;
+  left: 25%;
+  right: 25%;
+  top: 25%;
+  bottom: 25%;
+  margin: 5px;
+  padding: 5px;
+  border-radius: 20px;
+  background: white;
+
+  .popup-close{
+    padding: 5px;
+    margin-top: 5px;
+  }
+}
 `
