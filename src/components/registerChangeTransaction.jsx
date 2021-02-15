@@ -4,7 +4,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Button from '@material-ui/core/Button'
 import { useSelector } from 'react-redux'
-import { readTransactionsHistory, writeTransaction } from '../util/firestoreFunctions'
+import { readTransactionsHistory, deleteTransaction } from '../util/firestoreFunctions'
 import { MoneyInputField, InputTagsArea } from './componentsStyles'
 /**
  * @param {Object} param0
@@ -14,6 +14,7 @@ import { MoneyInputField, InputTagsArea } from './componentsStyles'
 export default function ChangeTransaction ({ aftherSubmit: handleSubmit, variant }) {
   const id = useSelector(({ userId }) => userId)
   const [selectedValue, setSelectedValue] = useState(null)
+  const [loading, setLoading] = useState(false)
   const initialState = ({
     amount: '',
     tags: ['']
@@ -87,6 +88,13 @@ export default function ChangeTransaction ({ aftherSubmit: handleSubmit, variant
           <>
           <br/>
           <Button style={{ color: 'red' }} variant="outlined"
+            onClick={async () => {
+              const value = selectedValue
+              setSelectedValue(null)
+              setLoading(true)
+              await deleteTransaction(id, value)
+              setLoading(false)
+            }}
             >Deletar Transação
           </Button>
           <br/>
@@ -123,6 +131,9 @@ export default function ChangeTransaction ({ aftherSubmit: handleSubmit, variant
             )
 
           : null
+    }
+    {
+      loading ? (<><br/><br/>carregando...</>) : null
     }
     </div>
   )
