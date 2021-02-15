@@ -41,6 +41,7 @@ body{
         width: 25%;
         padding: 15px;
         margin: 20px;
+        overflow: auto;
     }
 }
 `

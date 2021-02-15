@@ -114,3 +114,48 @@ background-color: rgba(0,0,0, 0.5);
   }
 }
 `
+
+export const HistoryTable = styled.div`
+#title {
+  text-align: center;
+  font-family: arial, sans-serif;
+}
+
+#transacoes {
+  text-align: center;
+  border-collapse: collapse;
+  border: 3px solid #ddd;
+  width: 100%;
+}
+
+#transacoes td, #transacoes th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#transacoes tr:nth-child(even){
+  }
+#transacoes tr:nth-child(odd){
+  }
+
+#transacoes tr:hover {background-color: #ddd;}
+
+#transacoes th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #AACAE2;
+  color: black;
+}
+
+`
+
+export const Tr = styled.tr` 
+ background-color: ${({ variant }) => {
+    if (variant() === 'POSITIVE') {
+      return '#E2AAAA'
+    } else {
+      return '#B0E2AA'
+    }
+  }};
+`

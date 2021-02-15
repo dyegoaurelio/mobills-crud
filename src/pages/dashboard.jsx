@@ -11,6 +11,7 @@ import {
   useReadTransactionsHistory
 } from '../util/firestoreFunctions'
 import { useHistory } from 'react-router-dom'
+import HistoryTable from '../components/transactionHistoryTable'
 
 function Dashboard () {
   const history = useHistory()
@@ -102,7 +103,9 @@ function Dashboard () {
             <Card>
               saldo: {!balance.loading ? 'R$ ' + balance.data : 'carregando'}
             </Card>
-            <Card>histórico</Card>
+            <Card>
+                <HistoryTable />
+            </Card>
           </body>
         </CardArea>
       </DashboardContent>

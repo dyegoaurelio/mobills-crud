@@ -14,6 +14,7 @@ import { Dashboard, NotFoundPage } from './pages'
 import ChangeTransaction from './components/registerChangeTransaction'
 import { Header } from './components/fixed'
 import { Page, Content } from './styles'
+import Table from './components/transactionHistoryTable'
 function App () {
   const dispatch = useDispatch()
   dispatch(addUrlPath('dashboard', '/'))
@@ -31,6 +32,7 @@ function App () {
                     <Content><ChangeTransaction /></Content>
                     </Page>)} />
           <Route exact path={useSelector(state => state.urls['not-found-page'])} component={NotFoundPage}/>
+          <Route exact path="/teste" component={Table}/>
            <Redirect to={useSelector(state => state.urls['not-found-page'])}/>
         </Switch>
       </Router>
