@@ -29,7 +29,7 @@ h1, h2 {
     grid-area: 1 / 1 / 2 / 2;
 }
 
-body{
+.cards{
     grid-area: 2 / 1 / 3 / 2 ;
     display: flex;
     align-items: center;

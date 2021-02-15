@@ -57,7 +57,7 @@ function Dashboard () {
       <DashboardContent>
         <CardArea>
           <h2>Adesão</h2>
-          <body>
+          <div className="cards">
             <Card>
               <h2>Adicionar despesa</h2>
               <Button
@@ -94,11 +94,11 @@ function Dashboard () {
                 Adicionar
               </Button>
             </Card>
-          </body>
+          </div>
         </CardArea>
         <CardArea>
           <h2>Acompanhamento</h2>
-          <body>
+          <div className="cards">
             <Card>Gráficos</Card>
             <Card style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <h2>saldo: {!balance.loading ? 'R$ ' + balance.data : 'carregando'} </h2>
@@ -106,7 +106,7 @@ function Dashboard () {
             <Card>
                 <HistoryTable transactions={transactions} />
             </Card>
-          </body>
+          </div>
         </CardArea>
       </DashboardContent>
     </Page>
