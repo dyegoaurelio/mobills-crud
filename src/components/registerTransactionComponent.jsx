@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { MoneyInputField, InputTagsArea } from './componentsStyles'
 import { useSelector } from 'react-redux'
-import { useReadBalance, writeTransaction } from '../util/firestoreFunctions'
+import { writeTransaction } from '../util/firestoreFunctions'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 /**
@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField'
  * @param {'income' | 'debt'} param0.variant teste
  * @param {boolean} param0.reset
  */
-export default function AddTransiction ({ aftherSubmit: handleSubmit, variant }) {
+export default function AddTransaction ({ aftherSubmit: handleSubmit, variant }) {
   const id = useSelector(({ userId }) => userId)
   const initialState = ({
     amount: '',
