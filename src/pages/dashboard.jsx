@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button'
 import { useReadBalance } from '../util/firestoreFunctions'
 
 function Dashboard () {
-  const balance = useReadBalance()
+  const [balance, updateBalance] = useReadBalance()
   const [showPopUp, setShowPopUp] = useState(false)
   const [debtClicked, setDebtClicked] = useState(false)
   const closePopup = () => {
@@ -30,7 +30,7 @@ function Dashboard () {
     <Page>
       {showPopUp
         ? (
-        <Popup closePopup={closePopup}>
+        <Popup closePopup={() => { closePopup(); updateBalance(true) }} >
           <RegisterTransaction variant={ debtClicked ? 'debt' : 'income' }/>
         </Popup>
           )
@@ -60,7 +60,7 @@ function Dashboard () {
           <body>
             <Card>Gráficos</Card>
             <Card>
-              saldo: {balance.data ? 'R$ ' + balance.data : 'carregando'}
+              saldo: {!balance.loading ? 'R$ ' + balance.data : 'carregando'}
             </Card>
             <Card>histórico</Card>
           </body>

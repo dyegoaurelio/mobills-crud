@@ -25,11 +25,11 @@ class Transaction {
  * will return all user's transactions since specified date
  *
  * if no date specified, returns all transactions
+ * @param {string} id username id
  * @param {number?} date minimum timestamp to fetch data
- * @returns {Array<object>}
+ * @returns {Promise<Array<object>>}
  */
-export async function readTransactions (date) {
-  const id = useSelector(({ userId }) => userId)
+export async function readTransactions (id, date) {
   const docRef = db.collection('users').doc(id).collection('transactions')
   let snapshot
 
@@ -40,6 +40,16 @@ export async function readTransactions (date) {
 
   snapshot = await docRef.get()
   return snapshot.docs.map((doc) => doc.data())
+}
+
+/**
+ * @param {number?} date minimum timestamp to fetch data
+ */
+export const useReadTransactions = (date) => {
+  const id = useSelector(({ userId }) => userId)
+  const state = useHook(readTransactions(id, date))
+
+  return state
 }
 
 /**
@@ -69,7 +79,7 @@ export async function readBalance (id) {
  */
 export const useReadBalance = () => {
   const id = useSelector(({ userId }) => userId)
-  const state = useHook(readBalance(id))
+  const state = useHook(readBalance, [id])
 
   return state
 }
@@ -101,20 +111,29 @@ export async function writeTransaction (id, value, tags) {
 }
 
 /**
- * will translate a promise to a hook
- * @param {Promise} promise
+ * will translate a async function to a hook
+ * @param {Function} func
+ * @param {array} args
+ * @typedef {{myNumber: Number, myString: String, myArray: Array}[]} AsyncHook
+ * @returns {[state: { data: any | null, loading: boolean}, setUpdate: React.Dispatch<React.SetStateAction<boolean>>]}
  */
-const useHook = promise => {
+const useHook = (func, args) => {
   const [state, setState] = useState({ data: null, loading: true })
+  const [update, setUpdate] = useState(false)
+  const funcArgs = args || []
 
   useEffect(() => {
     setState(
       state => ({ data: state.data, loading: true })
     )
-    promise.then(
+    func(...funcArgs).then(
       res => setState({ data: res, loading: false })
     )
-  }, []
+
+    return () => {
+      setUpdate(false)
+    }
+  }, [update]
   )
-  return state
+  return [state, setUpdate]
 }
